@@ -9,17 +9,18 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 
+const allowedOrigins = [
+  ...env.clientUrl.split(",").map((origin) => origin.trim()).filter(Boolean),
+  "https://tdc-assignment-32ud.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:5174"
+];
+
 app.use(
   cors({
     origin(origin, callback) {
-      const allowedOrigins = [
-        env.clientUrl,
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:5174"
-      ];
-
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
@@ -32,12 +33,15 @@ app.use(
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/health", (req, res) => {
+const healthCheck = (req, res) => {
   res.json({
     success: true,
     message: "AI Matchmaker Dashboard API is healthy"
   });
-});
+};
+
+app.get("/", healthCheck);
+app.get("/health", healthCheck);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/customers", customerRoutes);

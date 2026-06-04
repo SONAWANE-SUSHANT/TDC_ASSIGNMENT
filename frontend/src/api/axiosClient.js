@@ -1,7 +1,13 @@
 import axios from "axios";
 
+const fallbackBaseURL = import.meta.env.PROD
+  ? "https://tdc-assignment.onrender.com/api"
+  : "http://localhost:5000/api";
+
+const baseURL = (import.meta.env.VITE_API_BASE_URL || fallbackBaseURL).replace(/\/$/, "");
+
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
+  baseURL,
   headers: {
     "Content-Type": "application/json"
   }
