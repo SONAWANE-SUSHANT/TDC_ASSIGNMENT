@@ -81,27 +81,48 @@ const createProfile = (index) => {
   };
 };
 
-const seed = async () => {
-  await connectDB();
+const seedCustomers = async ({ reset = false } = {}) => {
+  if (reset) {
+    await Promise.all([Customer.deleteMany({}), Match.deleteMany({}), User.deleteMany({})]);
+  }
 
-  await Promise.all([Customer.deleteMany({}), Match.deleteMany({}), User.deleteMany({})]);
+  const existingCustomers = await Customer.countDocuments();
+  if (existingCustomers > 0) {
+    console.log(`Skipping seed: ${existingCustomers} customers already exist`);
+    return;
+  }
 
   const customers = Array.from({ length: 100 }, (_, index) => createProfile(index));
 
   await Customer.insertMany(customers);
-  await User.create({
-    name: "Matchmaking Employee",
-    email: env.dummyAuthEmail,
-    password: env.dummyAuthPassword,
-    role: "employee"
-  });
+  await User.findOneAndUpdate(
+    { email: env.dummyAuthEmail },
+    {
+      name: "Matchmaking Employee",
+      email: env.dummyAuthEmail,
+      password: env.dummyAuthPassword,
+      role: "employee"
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
 
   console.log("Seeded 100 customers and 1 dummy employee user");
+};
+
+const seed = async () => {
+  await connectDB();
+  await Promise.all([Customer.deleteMany({}), Match.deleteMany({}), User.deleteMany({})]);
+
+  await seedCustomers();
   await mongoose.connection.close();
 };
 
-seed().catch(async (error) => {
-  console.error("Seeding failed:", error);
-  await mongoose.connection.close();
-  process.exit(1);
-});
+if (require.main === module) {
+  seed().catch(async (error) => {
+    console.error("Seeding failed:", error);
+    await mongoose.connection.close();
+    process.exit(1);
+  });
+}
+
+module.exports = { createProfile, seedCustomers };
