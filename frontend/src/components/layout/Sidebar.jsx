@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import BrandMark from "../ui/BrandMark";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: "D" },
@@ -19,9 +20,7 @@ const Sidebar = ({ open, onClose }) => {
         }`}
       >
         <div className="flex h-16 items-center border-b border-[#7d5115]/15 px-5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#1b3a2f] text-sm font-bold text-white">
-            TDC
-          </div>
+          <BrandMark />
           <div className="ml-3">
             <p className="text-sm font-bold text-[#1a1925]">The Date Crew</p>
             <p className="text-xs text-[#7d5115]">Matchmaker dashboard</p>

@@ -132,9 +132,9 @@ const getCustomerMatches = asyncHandler(async (req, res) => {
     throw new Error("Customer not found");
   }
 
-  const { search = "", minScore = 0 } = req.query;
+  const { minScore = 0 } = req.query;
   const candidates = await Customer.find({ _id: { $ne: customer._id } });
-  const summary = getMatchSummary(customer, candidates, { search, minScore });
+  const summary = getMatchSummary(customer, candidates, { minScore });
   const matches = summary.rankedMatches.slice(0, 5);
 
   const enrichedMatches = await Promise.all(

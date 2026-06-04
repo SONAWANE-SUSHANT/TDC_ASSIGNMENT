@@ -1,4 +1,5 @@
 import { useAuth } from "../../context/AuthContext";
+import BrandMark from "../ui/BrandMark";
 
 const TopNavbar = ({ onMenuClick }) => {
   const { user, logout } = useAuth();
@@ -13,6 +14,9 @@ const TopNavbar = ({ onMenuClick }) => {
         >
           Menu
         </button>
+        <div className="hidden sm:block">
+          <BrandMark />
+        </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-normal text-[#7d5115]">The Date Crew</p>
           <h1 className="text-lg font-bold text-[#1a1925]">Partner Search Operations</h1>

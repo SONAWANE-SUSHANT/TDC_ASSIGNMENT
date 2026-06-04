@@ -23,10 +23,13 @@ const buildLanguages = (index) => {
   return [...new Set(["English", primary, secondary, tertiary].filter(Boolean))];
 };
 
+const emailPart = (value) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+
 const createProfile = (index) => {
   const gender = index % 2 === 0 ? "Male" : "Female";
-  const firstName = gender === "Male" ? pick(data.maleFirstNames, index) : pick(data.femaleFirstNames, index);
-  const lastName = pick(data.lastNames, index, 5);
+  const religion = pick(data.religions, index, 3);
+  const firstName = pick(data.firstNamesByReligion[religion][gender], index);
+  const lastName = pick(data.lastNamesByReligion[religion], index, gender === "Male" ? 2 : 5);
   const location = pick(data.locations, index, 2);
   const age = numberInRange(gender === "Male" ? 27 : 24, gender === "Male" ? 40 : 36, index, 5);
   const degree = pick(data.degrees, index, 4);
@@ -34,7 +37,7 @@ const createProfile = (index) => {
   const company = pick(data.companies, index, 1);
   const income = numberInRange(650000, 4500000, index, 137000);
   const languagesKnown = buildLanguages(index);
-  const email = `${firstName}.${lastName}.${index + 1}@example.com`.toLowerCase();
+  const email = `${emailPart(firstName)}.${emailPart(lastName)}.${index + 1}@example.com`;
 
   return {
     firstName,
@@ -61,7 +64,7 @@ const createProfile = (index) => {
     languages: languagesKnown,
     siblings: index % 4,
     caste: pick(data.castes, index, 2),
-    religion: pick(data.religions, index, 3),
+    religion,
     wantKids: pick(data.preferenceValues, index),
     childrenPreference: pick(data.preferenceValues, index),
     openToRelocate: pick(data.preferenceValues, index, 1),
@@ -81,6 +84,8 @@ const createProfile = (index) => {
   };
 };
 
+const seededProfiles = Array.from({ length: 100 }, (_, index) => createProfile(index));
+
 const seedCustomers = async ({ reset = false } = {}) => {
   if (reset) {
     await Promise.all([Customer.deleteMany({}), Match.deleteMany({}), User.deleteMany({})]);
@@ -92,9 +97,7 @@ const seedCustomers = async ({ reset = false } = {}) => {
     return;
   }
 
-  const customers = Array.from({ length: 100 }, (_, index) => createProfile(index));
-
-  await Customer.insertMany(customers);
+  await Customer.insertMany(seededProfiles);
   await User.findOneAndUpdate(
     { email: env.dummyAuthEmail },
     {
@@ -111,9 +114,8 @@ const seedCustomers = async ({ reset = false } = {}) => {
 
 const seed = async () => {
   await connectDB();
-  await Promise.all([Customer.deleteMany({}), Match.deleteMany({}), User.deleteMany({})]);
 
-  await seedCustomers();
+  await seedCustomers({ reset: true });
   await mongoose.connection.close();
 };
 
@@ -125,4 +127,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createProfile, seedCustomers };
+module.exports = { createProfile, seededProfiles, seedCustomers };

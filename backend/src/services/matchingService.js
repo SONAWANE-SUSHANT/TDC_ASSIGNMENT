@@ -75,27 +75,6 @@ const calculateTieBreaker = (customer, candidate) => {
   return score;
 };
 
-const matchesSearch = (candidate, search = "") => {
-  if (!search) return true;
-
-  const value = normalize(search);
-  const searchable = [
-    candidate.firstName,
-    candidate.lastName,
-    candidate.city,
-    candidate.state,
-    candidate.religion,
-    candidate.profession,
-    candidate.education,
-    candidate.degree,
-    ...(candidate.languagesKnown || [])
-  ]
-    .map(normalize)
-    .join(" ");
-
-  return searchable.includes(value);
-};
-
 const calculateCompatibility = (customer, candidate) => {
   const breakdown = {
     age: isDirectionalAgeCompatible(customer, candidate) ? 20 : 0,
@@ -119,11 +98,10 @@ const calculateCompatibility = (customer, candidate) => {
 };
 
 const getRankedMatches = (customer, candidates, options = {}) => {
-  const { search = "", minScore = 0 } = options;
+  const { minScore = 0 } = options;
 
   return candidates
     .filter((candidate) => String(candidate._id) !== String(customer._id) && candidate.gender !== customer.gender)
-    .filter((candidate) => matchesSearch(candidate, search))
     .map((candidate) => {
       const compatibility = calculateCompatibility(customer, candidate);
       return {

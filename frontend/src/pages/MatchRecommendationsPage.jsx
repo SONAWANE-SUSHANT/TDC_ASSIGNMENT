@@ -9,7 +9,7 @@ import { fullName } from "../utils/formatters";
 const MatchRecommendationsPage = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
-  const [filters, setFilters] = useState({ search: "", minScore: "" });
+  const [filters, setFilters] = useState({ minScore: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -54,7 +54,7 @@ const MatchRecommendationsPage = () => {
           <p className="mt-2 text-2xl font-bold text-slate-950">{data.summary?.totalProfilesEvaluated || 0}</p>
         </div>
         <div className="card p-4">
-          <p className="text-sm font-medium text-slate-500">Matching Search</p>
+          <p className="text-sm font-medium text-slate-500">Eligible Matches</p>
           <p className="mt-2 text-2xl font-bold text-slate-950">{data.summary?.totalMatchingProfiles || 0}</p>
         </div>
         <div className="card p-4">
@@ -68,13 +68,7 @@ const MatchRecommendationsPage = () => {
       </section>
 
       <section className="card p-4">
-        <div className="grid gap-3 md:grid-cols-[1fr_12rem_auto]">
-          <input
-            className="field"
-            placeholder="Search matches by name, city, religion, profession, education, language"
-            value={filters.search}
-            onChange={(event) => setFilters((current) => ({ ...current, search: event.target.value }))}
-          />
+        <div className="grid gap-3 md:grid-cols-[12rem_auto]">
           <select
             className="field"
             value={filters.minScore}
@@ -85,7 +79,7 @@ const MatchRecommendationsPage = () => {
             <option value="70">70% and above</option>
             <option value="85">85% and above</option>
           </select>
-          <button type="button" className="btn-secondary" onClick={() => setFilters({ search: "", minScore: "" })}>
+          <button type="button" className="btn-secondary" onClick={() => setFilters({ minScore: "" })}>
             Reset
           </button>
         </div>
@@ -98,7 +92,7 @@ const MatchRecommendationsPage = () => {
           ))
         ) : (
           <div className="card p-8 text-center">
-            <p className="text-sm font-semibold text-slate-700">No matching profiles found for this search.</p>
+            <p className="text-sm font-semibold text-slate-700">No matching profiles found for this score.</p>
           </div>
         )}
       </div>

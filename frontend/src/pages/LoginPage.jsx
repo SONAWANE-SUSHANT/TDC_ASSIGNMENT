@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import BrandMark from "../components/ui/BrandMark";
 
 const LoginPage = () => {
   const { login, isAuthenticated } = useAuth();
@@ -37,14 +38,7 @@ const LoginPage = () => {
       <section className="flex items-center justify-center px-6 py-10">
         <div className="w-full max-w-md">
          <div className="mb-8">
-<div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#8e570c] shadow-lg ring-4 ring-[#EBC796]/20">
-  <span
-    className="text-3xl italic text-white"
-    style={{ fontFamily: '"Cormorant Garamond", serif' }}
-  >
-    tdc
-  </span>
-</div>
+<BrandMark size="lg" />
 
   <h1 className="mt-6 text-3xl font-bold text-[#1a1925]">
     The Date Crew

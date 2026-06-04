@@ -71,7 +71,6 @@ const MatchCard = ({ sourceCustomer, match }) => {
               <Badge tone="default">{profile.maritalStatus}</Badge>
               <Badge tone="default">{profile.religion}</Badge>
             </div>
-            <p className="mt-4 text-sm leading-6 text-slate-600">{match.explanation}</p>
             <dl className="mt-5 grid gap-4 sm:grid-cols-3">
               <div>
                 <dt className="label">Profession</dt>
@@ -95,7 +94,13 @@ const MatchCard = ({ sourceCustomer, match }) => {
             </button>
           </div>
           <div className="w-full xl:w-80">
-            <CompatibilityBreakdown breakdown={match.breakdown} />
+            <div className="rounded-md border border-[#7d5115]/15 bg-[#fffaf2] p-4 text-center">
+              <p className="text-sm font-semibold text-slate-600">Calculated compatibility</p>
+              <p className="mt-2 text-4xl font-bold text-slate-950">{match.score}%</p>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-normal text-[#7d5115]">
+                Details hidden
+              </p>
+            </div>
             <button type="button" className="btn-primary mt-5 w-full" onClick={openSendModal}>
               Send Match
             </button>
@@ -108,6 +113,7 @@ const MatchCard = ({ sourceCustomer, match }) => {
               <h3 className="text-sm font-bold uppercase tracking-normal text-slate-500">Detailed Compatibility</h3>
               <p className="text-sm font-bold text-slate-950">Total: {match.score}/100</p>
             </div>
+            <p className="mb-4 text-sm leading-6 text-slate-600">{match.explanation}</p>
             <CompatibilityBreakdown breakdown={match.breakdown} detailed />
           </div>
         ) : null}

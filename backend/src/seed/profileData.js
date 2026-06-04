@@ -44,6 +44,33 @@ const femaleFirstNames = [
   "Maya"
 ];
 
+const firstNamesByReligion = {
+  Hindu: {
+    Male: ["Aarav", "Vivaan", "Aditya", "Arjun", "Sai", "Reyansh", "Krishna", "Ishaan", "Kabir", "Rohan"],
+    Female: ["Aadhya", "Ananya", "Diya", "Ira", "Kiara", "Meera", "Priya", "Riya", "Saanvi", "Tara"]
+  },
+  Muslim: {
+    Male: ["Ayaan", "Zaid", "Imran", "Farhan", "Sameer", "Armaan", "Faizan", "Rehan", "Omar", "Irfan"],
+    Female: ["Aisha", "Zoya", "Sana", "Nida", "Mariam", "Alina", "Hina", "Sara", "Noor", "Aaliya"]
+  },
+  Christian: {
+    Male: ["Aaron", "Daniel", "Kevin", "Joel", "Jason", "Ryan", "Nathan", "Shawn", "Brian", "Alan"],
+    Female: ["Maria", "Anna", "Grace", "Rachel", "Sarah", "Rebecca", "Joanna", "Angela", "Diana", "Clara"]
+  },
+  Sikh: {
+    Male: ["Gurpreet", "Harpreet", "Jaspreet", "Manpreet", "Amardeep", "Ranveer", "Navdeep", "Sukhbir", "Tejinder", "Balraj"],
+    Female: ["Simran", "Jasleen", "Harleen", "Gurleen", "Navneet", "Manpreet", "Amandeep", "Kiran", "Rupinder", "Prabhjot"]
+  },
+  Jain: {
+    Male: ["Rishabh", "Pranav", "Nishant", "Harsh", "Ankit", "Dhruv", "Sagar", "Yatin", "Kunal", "Parth"],
+    Female: ["Nidhi", "Ruchi", "Pooja", "Vidhi", "Komal", "Nikita", "Shreya", "Jinal", "Khushi", "Mansi"]
+  },
+  Buddhist: {
+    Male: ["Tenzin", "Lobsang", "Sonam", "Karma", "Norbu", "Dorjee", "Pema", "Jigme", "Nawang", "Sangay"],
+    Female: ["Dolma", "Yangchen", "Dechen", "Pema", "Tsering", "Kelsang", "Sonam", "Lhamo", "Choden", "Deki"]
+  }
+};
+
 const lastNames = [
   "Sharma",
   "Verma",
@@ -66,6 +93,15 @@ const lastNames = [
   "Rao",
   "Pillai"
 ];
+
+const lastNamesByReligion = {
+  Hindu: ["Sharma", "Verma", "Iyer", "Menon", "Nair", "Reddy", "Patel", "Mehta", "Kapoor", "Joshi"],
+  Muslim: ["Khan", "Shaikh", "Ansari", "Qureshi", "Mirza", "Syed", "Pathan", "Siddiqui", "Malik", "Hussain"],
+  Christian: ["D'Souza", "Fernandes", "Thomas", "Mathew", "Joseph", "George", "Pereira", "Menezes", "Rodrigues", "Lobo"],
+  Sikh: ["Singh", "Kaur", "Gill", "Sandhu", "Bedi", "Chadha", "Sodhi", "Brar", "Dhillon", "Sethi"],
+  Jain: ["Jain", "Shah", "Mehta", "Doshi", "Sanghvi", "Vora", "Gandhi", "Parekh", "Bafna", "Lodha"],
+  Buddhist: ["Lama", "Sherpa", "Bhutia", "Tamang", "Gurung", "Thapa", "Rinpoche", "Dorjee", "Moktan", "Yonjan"]
+};
 
 const locations = [
   { city: "Mumbai", state: "Maharashtra" },
@@ -159,7 +195,9 @@ const preferenceValues = ["Yes", "No", "Open"];
 module.exports = {
   maleFirstNames,
   femaleFirstNames,
+  firstNamesByReligion,
   lastNames,
+  lastNamesByReligion,
   locations,
   colleges,
   degrees,
